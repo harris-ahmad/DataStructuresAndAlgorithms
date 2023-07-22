@@ -1,7 +1,6 @@
 using namespace std;
 
 #include <iostream>
-#include <vector>
 
 template <typename T>
 class Node {
