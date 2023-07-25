@@ -1,6 +1,7 @@
 using namespace std;
 
 #include <iostream>
+#include <vector>
 
 template <typename T>
 class Node {
@@ -184,5 +185,17 @@ class LinkedList {
       curr = curr->next;
     }
     cout << endl;
+  }
+
+  void clear() {
+    Node<T>* curr = head;
+    Node<T>* nxt = NULL;
+    while (curr) {
+      nxt = curr->next;
+      curr = NULL;
+      delete curr;
+      curr = nxt;
+    }
+    head = NULL;
   }
 };
