@@ -32,4 +32,12 @@ class Stack : public LinkedList<T> {
     cout << "Stack is empty" << endl;
     return (T)NULL;
   }
+
+  inline int size() { return list.size(); }
+
+  inline bool isEmpty() { return list.size() == 0; }
+
+  inline bool isFull() { return list.size() == capacity; }
+
+  inline void print() { list.print(); }
 };
