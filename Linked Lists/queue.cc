@@ -48,5 +48,8 @@ class Queue : public LinkedList<T> {
 
   inline bool isFull() { return list.size() == capacity; }
 
-  inline void print() { list.print(); }
+  ostream &operator<<(ostream &os) {
+    os << list << endl;
+    return os;
+  }
 };

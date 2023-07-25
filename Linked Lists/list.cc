@@ -178,15 +178,6 @@ class LinkedList {
     return (found) ? curr : (Node<T>*)NULL;
   }
 
-  void printList() {
-    Node<T>* curr = head;
-    while (curr) {
-      cout << curr->data << " ";
-      curr = curr->next;
-    }
-    cout << endl;
-  }
-
   void clear() {
     Node<T>* curr = head;
     Node<T>* nxt = NULL;
@@ -197,5 +188,14 @@ class LinkedList {
       curr = nxt;
     }
     head = NULL;
+  }
+
+  ostream& operator<<(ostream& output) {
+    Node<T>* curr = head;
+    while (curr) {
+      output << curr->data << " ";
+      curr = curr->next;
+    }
+    return output;
   }
 };
