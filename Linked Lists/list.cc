@@ -1,7 +1,6 @@
 using namespace std;
 
 #include <iostream>
-#include <vector>
 
 template <typename T>
 class Node {
@@ -197,5 +196,26 @@ class LinkedList {
       curr = curr->next;
     }
     return output;
+  }
+
+  istream& operator>>(istream& input) {
+    T data;
+    input >> data;
+    append(data);
+    return input;
+  }
+
+  void operator[](int index) {
+    Node<T>* curr = head;
+    int count = 0;
+    while (curr) {
+      if (count == index) {
+        cout << curr->data << endl;
+        return;
+      }
+      count++;
+      curr = curr->next;
+    }
+    cout << "Index out of bounds" << endl;
   }
 };
