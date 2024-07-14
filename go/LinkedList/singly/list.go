@@ -11,3 +11,12 @@ type LinkedList struct {
 	length  int
 	nodeMap map[int]*Node
 }
+
+func NewLinkedList() *LinkedList {
+	return &LinkedList{
+		head:    nil,
+		tail:    nil,
+		length:  0,
+		nodeMap: make(map[int]*Node),
+	}
+}
