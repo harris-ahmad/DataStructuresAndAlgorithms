@@ -128,6 +128,7 @@ Delete:   Head -> [1] -> [2] -> null
 6. If the removed node was the `tail`, update the `tail` reference.
 
 **Diagram:**
+
 ```text
 Before:   Head -> [1] -> [2] -> [3] -> null
 Delete:   Head -> [1] -> [3] -> null
@@ -161,6 +162,7 @@ Reverse:  Head -> [3] -> [2] -> [1] -> null
 2. Return the node if found, otherwise return null.
 
 **Diagram:**
+
 ```text
 Nodes:    Head -> [1] -> [2] -> [3] -> null
 Find:     [2] (Returns node with data 2)
@@ -177,6 +179,7 @@ Find:     [2] (Returns node with data 2)
 3. Clear the node map (if using one).
 
 **Diagram:**
+
 ```text
 Before:   Head -> [1] -> [2] -> [3] -> null
 Clear:    null
