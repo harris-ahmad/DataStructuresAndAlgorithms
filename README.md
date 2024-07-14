@@ -14,7 +14,7 @@ Welcome to the ultimate repository for data structures implemented across multip
 
 ## Introduction
 
-This repository aims to provide a comprehensive collection of data structures implemented in C++, Go, JavaScript, and Python. Each implementation includes practical applications to demonstrate their usage in real-world scenarios.
+This repository aims to provide a comprehensive collection of data structures implemented in C++, Go, JavaScript, and Python. Each implementation will include practical applications to demonstrate their usage in real-world scenarios. 
 
 ## Directory Structure
 
