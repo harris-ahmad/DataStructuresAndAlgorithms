@@ -20,3 +20,11 @@ func NewLinkedList() *LinkedList {
 		nodeMap: make(map[int]*Node),
 	}
 }
+
+func (ll *LinkedList) GetHead() *Node {
+	return ll.head
+}
+
+func (ll *LinkedList) GetTail() *Node {
+	return ll.tail
+}
