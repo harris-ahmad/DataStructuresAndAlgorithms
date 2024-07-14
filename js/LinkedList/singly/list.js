@@ -102,9 +102,21 @@ class LinkedList {
     let count = 0;
     let curr = this.head;
     while (curr) {
-        count++;
-        curr = curr.next;
+      count++;
+      curr = curr.next;
     }
     return count;
-}
+  }
+
+  reverseList() {
+    let prev = null;
+    let curr = this.head;
+    while (curr) {
+      const next = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = next;
+    }
+    this.head = prev;
+  }
 };
