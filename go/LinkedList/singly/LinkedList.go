@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // Node represents a single node in a singly linked list.
 type Node struct {
@@ -199,7 +197,6 @@ func (ll *LinkedList) PrintList() {
 	fmt.Println("nil")
 }
 
-// Example usage
 func main() {
 	ll := NewLinkedList()
 
