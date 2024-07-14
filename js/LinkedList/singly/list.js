@@ -3,11 +3,14 @@ class Node {
     this.data = data;
     this.next = null;
   }
-};
+}
 
 class LinkedList {
   constructor() {
     this.head = null;
+    this.tail = null;
+    this.length = 0;
+    this.nodeMap = new Map();  // HashMap for O(1) lookups
   }
 
   getHead() {
@@ -15,65 +18,80 @@ class LinkedList {
   }
 
   getTail() {
-    let lastNode = this.head;
-    while (lastNode & lastNode.next) {
-      lastNode = lastNode.next;
-    }
-    return lastNode;
+    return this.tail;
   }
 
   prepend(data) {
     const newNode = new Node(data);
-    newNode.next = this.head;
-    this.head = newNode;
+    if (!this.head) {
+      this.head = newNode;
+      this.tail = newNode;
+    } else {
+      newNode.next = this.head;
+      this.head = newNode;
+    }
+    this.nodeMap.set(data.id, newNode);
+    this.length++;
   }
 
   append(data) {
     const newNode = new Node(data);
     if (!this.head) {
       this.head = newNode;
+      this.tail = newNode;
     } else {
-      const lastNode = this.getTail();
-      lastNode.next = newNode;
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
+    this.nodeMap.set(data.id, newNode);
+    this.length++;
   }
 
-  insertBetween(data, after) {
+  insertBetween(data, before, after) {
     const newNode = new Node(data);
-    let prevNode = this.head;
+    let curr = this.head;
 
-    while (prevNode && prevNode.data !== after) {
-      prevNode = prevNode.next;
+    while (curr && curr.data !== after) {
+      curr = curr.next;
     }
 
-    if (prevNode) {
-      newNode.next = prevNode.next;
-      prevNode.next = newNode;
+    if (curr && curr.next && curr.next.data === before) {
+      newNode.next = curr.next;
+      curr.next = newNode;
+      this.nodeMap.set(data.id, newNode);
+      this.length++;
     }
   }
 
   deleteHead() {
-    if (!this.head) {
-      return new Error("list is empty, nothing to delete");
-    }
     if (this.head) {
-      this.head = this.head = next;
+      this.nodeMap.delete(this.head.data.id);
+      this.head = this.head.next;
+      if (!this.head) {
+        this.tail = null;
+      }
+      this.length--;
     }
   }
 
   deleteTail() {
     if (!this.head) {
-      return new Error("list is empty, nothing to delete");
+      return;
     }
     if (!this.head.next) {
+      this.nodeMap.delete(this.head.data.id);
       this.head = null;
+      this.tail = null;
     } else {
       let prevNode = this.head;
       while (prevNode.next && prevNode.next.next) {
         prevNode = prevNode.next;
       }
+      this.nodeMap.delete(prevNode.next.data.id);
       prevNode.next = null;
+      this.tail = prevNode;
     }
+    this.length--;
   }
 
   deleteAny(target) {
@@ -81,38 +99,46 @@ class LinkedList {
       return;
     }
 
-    if (this.head.data === target) {
+    if (this.head.data.id === target.id) {
+      this.nodeMap.delete(this.head.data.id);
       this.head = this.head.next;
+      if (!this.head) {
+        this.tail = null;
+      }
+      this.length--;
     } else {
       let prevNode = this.head;
       let curr = this.head.next;
 
-      while (curr && curr.data !== target) {
+      while (curr && curr.data.id !== target.id) {
         prevNode = curr;
         curr = curr.next;
       }
 
       if (curr) {
         prevNode.next = curr.next;
+        if (!curr.next) {
+          this.tail = prevNode;
+        }
+        this.nodeMap.delete(curr.data.id);
+        this.length--;
       }
     }
   }
 
   size() {
-    let count = 0;
-    let curr = this.head;
-    while (curr) {
-      count++;
-      curr = curr.next;
-    }
-    return count;
+    return this.length;
   }
 
   reverseList() {
     let prev = null;
     let curr = this.head;
+    let next = null;
+
+    this.tail = this.head;
+
     while (curr) {
-      const next = curr.next;
+      next = curr.next;
       curr.next = prev;
       prev = curr;
       curr = next;
@@ -120,28 +146,26 @@ class LinkedList {
     this.head = prev;
   }
 
-  find(target) {
-    let curr = this.head;
-    while (curr) {
-      if (curr.data === target) {
-        return curr;
-      }
-      curr = curr.next;
-    }
-    return null;
+  find(id) {
+    return this.nodeMap.get(id) || null;
   }
 
   clear() {
     this.head = null;
+    this.tail = null;
+    this.length = 0;
+    this.nodeMap.clear();
   }
 
   print() {
     let curr = this.head;
     const result = [];
     while (curr) {
-      result.push(curr.data);
+      result.push(curr.data.toString());
       curr = curr.next;
     }
     console.log(result.join(" -> "));
   }
-};
+}
+
+module.exports = LinkedList;
