@@ -1,7 +1,3 @@
-Sure! Here’s an enhanced and appealing version of the README with emojis and logos for each programming language.
-
----
-
 # 📚 Data Structures in Various Programming Languages
 
 Welcome to the ultimate repository for data structures implemented across multiple programming languages! Whether you are a student, educator, or software developer, this collection is designed to help you understand and utilize different data structures in practical applications.
