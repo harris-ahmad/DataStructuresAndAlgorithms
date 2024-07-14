@@ -2,46 +2,34 @@ package main
 
 import (
 	"fmt"
-	"sync"
 )
 
+// Node represents a single node in a singly linked list.
 type Node struct {
 	data interface{}
 	next *Node
 }
 
+// LinkedList represents a singly linked list.
 type LinkedList struct {
 	head    *Node
 	tail    *Node
 	length  int
-	nodeMap map[interface{}]*Node // Map for O(1) lookups
-	mutex   sync.RWMutex          // Mutex for thread-safe operations
+	nodeMap map[int]*Node // Map for O(1) lookups by ID
 }
 
+// NewLinkedList creates an empty LinkedList.
 func NewLinkedList() *LinkedList {
 	return &LinkedList{
 		head:    nil,
 		tail:    nil,
 		length:  0,
-		nodeMap: make(map[interface{}]*Node),
+		nodeMap: make(map[int]*Node),
 	}
 }
 
-func (ll *LinkedList) GetHead() *Node {
-	ll.mutex.RLock()
-	defer ll.mutex.RUnlock()
-	return ll.head
-}
-
-func (ll *LinkedList) GetTail() *Node {
-	ll.mutex.RLock()
-	defer ll.mutex.RUnlock()
-	return ll.tail
-}
-
-func (ll *LinkedList) Prepend(data interface{}) {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
+// Prepend adds a node to the beginning of the list.
+func (ll *LinkedList) Prepend(id int, data interface{}) {
 	newNode := &Node{data: data}
 	if ll.head == nil {
 		ll.head = newNode
@@ -50,13 +38,12 @@ func (ll *LinkedList) Prepend(data interface{}) {
 		newNode.next = ll.head
 		ll.head = newNode
 	}
-	ll.nodeMap[data] = newNode
+	ll.nodeMap[id] = newNode
 	ll.length++
 }
 
-func (ll *LinkedList) Append(data interface{}) {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
+// Append adds a node to the end of the list.
+func (ll *LinkedList) Append(id int, data interface{}) {
 	newNode := &Node{data: data}
 	if ll.head == nil {
 		ll.head = newNode
@@ -65,13 +52,12 @@ func (ll *LinkedList) Append(data interface{}) {
 		ll.tail.next = newNode
 		ll.tail = newNode
 	}
-	ll.nodeMap[data] = newNode
+	ll.nodeMap[id] = newNode
 	ll.length++
 }
 
-func (ll *LinkedList) InsertBetween(data, before, after interface{}) {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
+// InsertBetween inserts a node between two existing nodes in the list.
+func (ll *LinkedList) InsertBetween(id int, data, before, after interface{}) {
 	newNode := &Node{data: data}
 	curr := ll.head
 
@@ -82,16 +68,20 @@ func (ll *LinkedList) InsertBetween(data, before, after interface{}) {
 	if curr != nil && curr.next != nil && curr.next.data == before {
 		newNode.next = curr.next
 		curr.next = newNode
-		ll.nodeMap[data] = newNode
+		ll.nodeMap[id] = newNode
 		ll.length++
 	}
 }
 
+// DeleteHead removes the head node of the list.
 func (ll *LinkedList) DeleteHead() {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
 	if ll.head != nil {
-		delete(ll.nodeMap, ll.head.data)
+		for k, v := range ll.nodeMap {
+			if v == ll.head {
+				delete(ll.nodeMap, k)
+				break
+			}
+		}
 		ll.head = ll.head.next
 		if ll.head == nil {
 			ll.tail = nil
@@ -100,14 +90,18 @@ func (ll *LinkedList) DeleteHead() {
 	}
 }
 
+// DeleteTail removes the tail node of the list.
 func (ll *LinkedList) DeleteTail() {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
 	if ll.head == nil {
 		return
 	}
 	if ll.head.next == nil {
-		delete(ll.nodeMap, ll.head.data)
+		for k, v := range ll.nodeMap {
+			if v == ll.head {
+				delete(ll.nodeMap, k)
+				break
+			}
+		}
 		ll.head = nil
 		ll.tail = nil
 	} else {
@@ -115,56 +109,60 @@ func (ll *LinkedList) DeleteTail() {
 		for prevNode.next != nil && prevNode.next.next != nil {
 			prevNode = prevNode.next
 		}
-		delete(ll.nodeMap, prevNode.next.data)
+		for k, v := range ll.nodeMap {
+			if v == prevNode.next {
+				delete(ll.nodeMap, k)
+				break
+			}
+		}
 		prevNode.next = nil
 		ll.tail = prevNode
 	}
 	ll.length--
 }
 
-func (ll *LinkedList) DeleteAny(target interface{}) {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
+// DeleteAny removes any node from the list that matches the given target ID.
+func (ll *LinkedList) DeleteAny(id int) {
 	if ll.head == nil {
 		return
 	}
 
-	if ll.head.data == target {
-		delete(ll.nodeMap, ll.head.data)
-		ll.head = ll.head.next
-		if ll.head == nil {
-			ll.tail = nil
-		}
-		ll.length--
-	} else {
-		prevNode := ll.head
-		curr := ll.head.next
-
-		for curr != nil && curr.data != target {
-			prevNode = curr
-			curr = curr.next
-		}
-
-		if curr != nil {
-			prevNode.next = curr.next
-			if curr.next == nil {
-				ll.tail = prevNode
+	if node, ok := ll.nodeMap[id]; ok {
+		if ll.head == node {
+			ll.head = ll.head.next
+			if ll.head == nil {
+				ll.tail = nil
 			}
-			delete(ll.nodeMap, curr.data)
+			delete(ll.nodeMap, id)
 			ll.length--
+		} else {
+			prevNode := ll.head
+			curr := ll.head.next
+
+			for curr != nil && curr != node {
+				prevNode = curr
+				curr = curr.next
+			}
+
+			if curr != nil {
+				prevNode.next = curr.next
+				if curr.next == nil {
+					ll.tail = prevNode
+				}
+				delete(ll.nodeMap, id)
+				ll.length--
+			}
 		}
 	}
 }
 
+// Size returns the number of nodes in the list.
 func (ll *LinkedList) Size() int {
-	ll.mutex.RLock()
-	defer ll.mutex.RUnlock()
 	return ll.length
 }
 
+// ReverseList reverses the linked list in place.
 func (ll *LinkedList) ReverseList() {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
 	var prev, curr, next *Node
 	curr = ll.head
 	ll.tail = ll.head
@@ -178,24 +176,21 @@ func (ll *LinkedList) ReverseList() {
 	ll.head = prev
 }
 
-func (ll *LinkedList) Find(data interface{}) *Node {
-	ll.mutex.RLock()
-	defer ll.mutex.RUnlock()
-	return ll.nodeMap[data]
+// Find returns the node with the given ID.
+func (ll *LinkedList) Find(id int) *Node {
+	return ll.nodeMap[id]
 }
 
+// Clear removes all nodes from the list.
 func (ll *LinkedList) Clear() {
-	ll.mutex.Lock()
-	defer ll.mutex.Unlock()
 	ll.head = nil
 	ll.tail = nil
 	ll.length = 0
-	ll.nodeMap = make(map[interface{}]*Node)
+	ll.nodeMap = make(map[int]*Node)
 }
 
+// PrintList prints the list data in a readable format.
 func (ll *LinkedList) PrintList() {
-	ll.mutex.RLock()
-	defer ll.mutex.RUnlock()
 	curr := ll.head
 	for curr != nil {
 		fmt.Printf("%v -> ", curr.data)
@@ -204,20 +199,21 @@ func (ll *LinkedList) PrintList() {
 	fmt.Println("nil")
 }
 
+// Example usage
 func main() {
 	ll := NewLinkedList()
 
 	// Adding data to the list
-	ll.Append("Node 1")
-	ll.Append("Node 2")
-	ll.Append("Node 3")
+	ll.Append(1, "Node 1")
+	ll.Append(2, "Node 2")
+	ll.Append(3, "Node 3")
 
 	// Printing the list
 	fmt.Println("List after adding nodes:")
 	ll.PrintList()
 
 	// Deleting a node
-	ll.DeleteAny("Node 2")
+	ll.DeleteAny(2)
 
 	// Printing the list after deletion
 	fmt.Println("List after deleting a node:")
