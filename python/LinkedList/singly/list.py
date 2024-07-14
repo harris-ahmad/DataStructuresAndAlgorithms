@@ -74,3 +74,54 @@ class LinkedList:
             self.tail = new_node
         self.node_map[data.id] = new_node
         self.length += 1
+
+    def insert_between(self, data, before, after):
+        """
+        Insert a node between two existing nodes in the list.
+
+        :param data: The data to be stored in the new node.
+        :param before: The data of the node before which to
+                       insert the new node.
+        :param after: The data of the node after which to insert the new node.
+        """
+        new_node = Node(data)
+        curr = self.head
+
+        while curr and curr.data != after:
+            curr = curr.next
+
+        if curr and curr.next and curr.next.data == before:
+            new_node.next = curr.next
+            curr.next = new_node
+            self.node_map[data.id] = new_node
+            self.length += 1
+
+    def delete_head(self):
+        """
+        Delete the head node of the list.
+        """
+        if self.head:
+            self.node_map.pop(self.head.data.id, None)
+            self.head = self.head.next
+            if not self.head:
+                self.tail = None
+            self.length -= 1
+
+    def delete_tail(self):
+        """
+        Delete the tail node of the list.
+        """
+        if not self.head:
+            return
+        if not self.head.next:
+            self.node_map.pop(self.head.data.id, None)
+            self.head = None
+            self.tail = None
+        else:
+            prev_node = self.head
+            while prev_node.next and prev_node.next.next:
+                prev_node = prev_node.next
+            self.node_map.pop(prev_node.next.data.id, None)
+            prev_node.next = None
+            self.tail = prev_node
+        self.length -= 1
