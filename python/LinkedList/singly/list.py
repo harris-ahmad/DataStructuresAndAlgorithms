@@ -163,3 +163,20 @@ class LinkedList:
         :return: The number of nodes in the list.
         """
         return self.length
+
+    def reverse_list(self):
+        """
+        Reverse the linked list in place.
+        """
+        prev = None
+        curr = self.head
+        next_node = None
+
+        self.tail = self.head
+
+        while curr:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+        self.head = prev
