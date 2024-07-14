@@ -75,4 +75,36 @@ class LinkedList {
       prevNode.next = null;
     }
   }
+
+  deleteAny(target) {
+    if (!this.head) {
+      return;
+    }
+
+    if (this.head.data === target) {
+      this.head = this.head.next;
+    } else {
+      let prevNode = this.head;
+      let curr = this.head.next;
+
+      while (curr && curr.data !== target) {
+        prevNode = curr;
+        curr = curr.next;
+      }
+
+      if (curr) {
+        prevNode.next = curr.next;
+      }
+    }
+  }
+
+  size() {
+    let count = 0;
+    let curr = this.head;
+    while (curr) {
+        count++;
+        curr = curr.next;
+    }
+    return count;
+}
 };
