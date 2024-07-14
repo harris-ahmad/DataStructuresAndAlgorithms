@@ -180,3 +180,32 @@ class LinkedList:
             prev = curr
             curr = next_node
         self.head = prev
+
+    def find(self, id):
+        """
+        Find a node in the list by its id.
+
+        :param id: The id of the node to find.
+        :return: The node with the given id or None if not found.
+        """
+        return self.node_map.get(id, None)
+
+    def clear(self):
+        """
+        Clear the list.
+        """
+        self.head = None
+        self.tail = None
+        self.length = 0
+        self.node_map = {}
+
+    def print_list(self):
+        """
+        Print the list data in a readable format.
+        """
+        curr = self.head
+        result = []
+        while curr:
+            result.append(str(curr.data))
+            curr = curr.next
+        print(" -> ".join(result))
