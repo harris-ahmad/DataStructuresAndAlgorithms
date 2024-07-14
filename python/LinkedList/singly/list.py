@@ -155,3 +155,11 @@ class LinkedList:
                     self.tail = prev_node
                 self.node_map.pop(curr.data.id, None)
                 self.length -= 1
+
+    def size(self):
+        """
+        Get the size of the list.
+
+        :return: The number of nodes in the list.
+        """
+        return self.length
