@@ -119,4 +119,29 @@ class LinkedList {
     }
     this.head = prev;
   }
+
+  find(target) {
+    let curr = this.head;
+    while (curr) {
+      if (curr.data === target) {
+        return curr;
+      }
+      curr = curr.next;
+    }
+    return null;
+  }
+
+  clear() {
+    this.head = null;
+  }
+
+  print() {
+    let curr = this.head;
+    const result = [];
+    while (curr) {
+      result.push(curr.data);
+      curr = curr.next;
+    }
+    console.log(result.join(" -> "));
+  }
 };
