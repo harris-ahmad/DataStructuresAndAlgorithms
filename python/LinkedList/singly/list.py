@@ -125,3 +125,33 @@ class LinkedList:
             prev_node.next = None
             self.tail = prev_node
         self.length -= 1
+
+    def delete_any(self, target):
+        """
+        Delete any node from the list that matches the given target data.
+
+        :param target: The target data to match for deletion.
+        """
+        if not self.head:
+            return
+
+        if self.head.data.id == target.id:
+            self.node_map.pop(self.head.data.id, None)
+            self.head = self.head.next
+            if not self.head:
+                self.tail = None
+            self.length -= 1
+        else:
+            prev_node = self.head
+            curr = self.head.next
+
+            while curr and curr.data.id != target.id:
+                prev_node = curr
+                curr = curr.next
+
+            if curr:
+                prev_node.next = curr.next
+                if not curr.next:
+                    self.tail = prev_node
+                self.node_map.pop(curr.data.id, None)
+                self.length -= 1
