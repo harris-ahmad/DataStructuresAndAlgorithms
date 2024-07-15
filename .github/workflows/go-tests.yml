@@ -24,8 +24,5 @@ jobs:
       - name: Navigate to singly directory
         run: cd go/LinkedList/singly
 
-      - name: Install dependencies
-        run: go get -t -v ./...
-
       - name: Run tests
         run: go test -v ./...
