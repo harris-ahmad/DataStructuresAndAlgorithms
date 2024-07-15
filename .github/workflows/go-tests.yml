@@ -1,0 +1,31 @@
+name: Go Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16'
+
+      - name: Navigate to singly directory
+        run: cd go/LinkedList/singly
+
+      - name: Install dependencies
+        run: go get -t -v ./...
+
+      - name: Run tests
+        run: go test -v ./...
