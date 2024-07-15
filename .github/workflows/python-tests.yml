@@ -1,7 +1,10 @@
-name: Run Tests
+name: Python Tests
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
@@ -16,8 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.12.3' # Specify the Python version you are using
+        python-version: '3.12.3'
 
     - name: Run tests
-      run: |
-        python -m unittest discover -s python/LinkedList/singly -p 'list_test.py'
+      run: python -m unittest discover -s python/LinkedList/singly -p 'list_test.py'
