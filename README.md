@@ -14,28 +14,22 @@ Welcome to the ultimate repository for data structures implemented across multip
 
 ## Introduction
 
-This repository aims to provide a comprehensive collection of data structures implemented in C++, Go, JavaScript, and Python. Each implementation will include practical applications to demonstrate their usage in real-world scenarios. 
+This repository aims to provide a comprehensive collection of data structures implemented in C++, Go, JavaScript, and Python. Each implementation will include practical applications to demonstrate their usage in real-world scenarios.
 
 ## Directory Structure
 
 Here's a breakdown of the repository's structure:
 
-```
+```text
 .
+├── concepts
+│   └── LinkedList
+│       └── singly
+│           └── notes.md
 ├── cpp
-│   ├── LinkedList
-│   │   ├── circular
-│   │   ├── doubly
-│   │   ├── queue.cc
-│   │   ├── singly
-│   │   │   ├── list.h
-│   │   │   └── practical
-│   │   │       └── TaskManager.cc
-│   │   └── stack.cc
-│   ├── Queue
-│   ├── Stacks
-│   └── Trees
-│       └── bst.cc
+│   └── LinkedList
+│       └── singly
+│           └── list.cc
 ├── go
 │   └── LinkedList
 │       └── singly
@@ -50,6 +44,8 @@ Here's a breakdown of the repository's structure:
 │       └── singly
 │           └── list.py
 └── README.md
+
+15 directories, 7 files
 ```
 
 ### Features
