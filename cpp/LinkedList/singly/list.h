@@ -1,3 +1,6 @@
+# ifndef LIST_H
+# define LIST_H
+
 #include <iostream>
 #include <memory>
 
@@ -170,3 +173,5 @@ public:
 private:
     std::shared_ptr<Node<T>> head;
 };
+
+#endif

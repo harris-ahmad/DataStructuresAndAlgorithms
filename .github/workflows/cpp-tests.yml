@@ -1,0 +1,29 @@
+name: C++ Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Dependencies
+      run: sudo apt-get install -y g++
+
+    - name: Change Directory
+      run: cd ./cpp/LinkedList/singly
+
+    - name: Compile Tests
+      run: g++ -std=c++14 list_test.cc -o list_test
+
+    - name: Run Tests
+      run: ./list_test
