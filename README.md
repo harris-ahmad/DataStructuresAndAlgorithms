@@ -16,39 +16,7 @@ Welcome to the ultimate repository for data structures implemented across multip
 
 This repository aims to provide a comprehensive collection of data structures implemented in C++, Go, JavaScript, and Python. Each implementation will include practical applications to demonstrate their usage in real-world scenarios.
 
-## Directory Structure
-
-Here's a breakdown of the repository's structure:
-
-```text
-.
-├── concepts
-│   └── LinkedList
-│       └── singly
-│           └── notes.md
-├── cpp
-│   └── LinkedList
-│       └── singly
-│           └── list.cc
-├── go
-│   └── LinkedList
-│       └── singly
-│           └── LinkedList.go
-├── js
-│   └── LinkedList
-│       └── singly
-│           └── list.js
-├── LICENSE
-├── python
-│   └── LinkedList
-│       └── singly
-│           └── list.py
-└── README.md
-
-15 directories, 7 files
-```
-
-### Features
+## Features
 
 - **C++ Implementations**:
   - 🔄 Circular Linked List
