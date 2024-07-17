@@ -1,4 +1,4 @@
-package main
+package singly
 
 import "fmt"
 
@@ -195,31 +195,4 @@ func (ll *LinkedList) PrintList() {
 		curr = curr.next
 	}
 	fmt.Println("nil")
-}
-
-func main() {
-	ll := NewLinkedList()
-
-	// Adding data to the list
-	ll.Append(1, "Node 1")
-	ll.Append(2, "Node 2")
-	ll.Append(3, "Node 3")
-
-	// Printing the list
-	fmt.Println("List after adding nodes:")
-	ll.PrintList()
-
-	// Deleting a node
-	ll.DeleteAny(2)
-
-	// Printing the list after deletion
-	fmt.Println("List after deleting a node:")
-	ll.PrintList()
-
-	// Reversing the list
-	ll.ReverseList()
-
-	// Printing the reversed list
-	fmt.Println("List after reversing:")
-	ll.PrintList()
 }
