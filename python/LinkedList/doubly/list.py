@@ -102,3 +102,25 @@ class DoublyLinkedList:
             self.tail = self.tail.prev
             self.tail.next = None
         self.length -= 1
+
+    def delete_any(self, target: Data):
+        if not self.head:
+            raise Exception("List is empty")
+
+        if self.head.data == target:
+            self.delete_head()
+            return
+        elif self.tail.data == target:
+            self.delete_tail()
+            return
+        else:
+            curr = self.head
+            while curr and curr.data.id != target.id:
+                curr = curr.next
+
+            if curr:
+                curr.prev.next = curr.next
+                if curr.next:
+                    curr.next.prev = curr.prev
+                self.node_map.pop(target.id, None)
+                self.length -= 1
