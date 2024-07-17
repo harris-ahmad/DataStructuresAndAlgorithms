@@ -21,8 +21,12 @@ jobs:
         with:
           go-version: '^1.16'
 
-      - name: Navigate to singly directory
-        run: cd go/LinkedList/singly
+      - name: Set up dependencies
+        run: |
+          cd go/LinkedList/singly
+          go mod tidy
 
       - name: Run tests
-        run: go test
+        run: |
+          cd go/LinkedList/singly
+          go test -v .
