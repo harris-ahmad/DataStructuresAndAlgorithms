@@ -19,11 +19,8 @@ jobs:
     - name: Install Dependencies
       run: sudo apt-get install -y g++
 
-    - name: Change Directory
-      run: cd ./cpp/LinkedList/singly
-
-    - name: Compile Tests
-      run: g++ -std=c++14 list_test.cc -o list_test
-
     - name: Run Tests
-      run: ./list_test
+      run: |
+        cd cpp/LinkedList/singly
+        g++ -std=c++14 list_test.cc -o list_test
+        ./list_test
