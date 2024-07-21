@@ -109,13 +109,26 @@ int size(LinkedList *list) {
 }
 
 void reverseList(LinkedList *list) {
-    Node *curr = list->head;
-    Node *prev = NULL;
-    while(curr) {
-        Node *next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-    list->head = prev;
+  Node *curr = list->head;
+  Node *prev = NULL;
+  while (curr) {
+    Node *next = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+  }
+  list->head = prev;
 }
+
+Node *find(LinkedList *list, void *data) {
+  Node *curr = list->head;
+  while (curr) {
+    if (curr->data == data) {
+      return curr;
+    }
+    curr = curr->next;
+  }
+  return (Node *)NULL;
+}
+
+void clear(LinkedList *list) { list->head = NULL; }
