@@ -97,3 +97,25 @@ void deleteAny(LinkedList *list, void *data) {
     }
   }
 }
+
+int size(LinkedList *list) {
+  int count = 0;
+  Node *curr = list->head;
+  while (curr) {
+    count++;
+    curr = curr->next;
+  }
+  return count;
+}
+
+void reverseList(LinkedList *list) {
+    Node *curr = list->head;
+    Node *prev = NULL;
+    while(curr) {
+        Node *next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    list->head = prev;
+}
