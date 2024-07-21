@@ -59,3 +59,22 @@ void insertBetween(LinkedList *list, void *data, void *after) {
   }
 }
 
+void deleteHead(LinkedList *list) {
+  if (list->head)
+    list->head = list->head->next;
+}
+
+void deleteTail(LinkedList *list) {
+  if (!list->head) {
+    return;
+  }
+  if (!list->head->next) {
+    list->head = NULL;
+  } else {
+    Node *prevNode = list->head;
+    while (prevNode->next && prevNode->next->next) {
+      prevNode = prevNode->next;
+    }
+    prevNode->next = NULL;
+  }
+}
