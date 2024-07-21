@@ -300,5 +300,3 @@ void printNodeAtIndex(LinkedList *list, int index) {
   }
   printf("Index out of bounds\n");
 }
-
-#endif
