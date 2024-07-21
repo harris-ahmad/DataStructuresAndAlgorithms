@@ -17,9 +17,7 @@ Node *createNode(void *data) {
   return newNode;
 }
 
-Node *getHead(LinkedList *list) {
-  return list->head;
-}
+Node *getHead(LinkedList *list) { return list->head; }
 
 Node *getTail(LinkedList *list) {
   Node *lastNode = list->head;
@@ -76,5 +74,26 @@ void deleteTail(LinkedList *list) {
       prevNode = prevNode->next;
     }
     prevNode->next = NULL;
+  }
+}
+
+void deleteAny(LinkedList *list, void *data) {
+  if (!list->head)
+    return;
+
+  if (list->head->data == data) {
+    list->head = list->head->next;
+  } else {
+    Node *prevNode = list->head;
+    Node *curr = list->head->next;
+
+    while (curr && curr->data != data) {
+      prevNode = curr;
+      curr = curr->next;
+    }
+
+    if (curr) {
+      prevNode->next = curr->next;
+    }
   }
 }
