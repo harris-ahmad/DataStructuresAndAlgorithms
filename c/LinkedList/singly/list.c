@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define HASHMAP_SIZE 1024
+
 typedef struct Node {
   void *data;
   struct Node *next;
@@ -9,6 +11,75 @@ typedef struct Node {
 typedef struct LinkedList {
   Node *head;
 } LinkedList;
+
+/* HashMap Implementation*/
+typedef struct HashMapEntry {
+  int key;
+  Node *value;
+  struct HashMapEntry *next;
+} HashMapEntry;
+
+typedef struct HashMap {
+  HashMapEntry **table;
+} HashMap;
+
+unsigned int hash(int key) { return key % HASHMAP_SIZE; }
+
+HashMap *createHashMap() {
+  HashMap *map = (HashMap *)malloc(sizeof(HashMap));
+  map->table = (HashMapEntry **)malloc(HASHMAP_SIZE * sizeof(HashMapEntry));
+  for (int i = 0; i < HASHMAP_SIZE; i++) {
+    map->table[i] = NULL;
+  }
+  return map;
+}
+
+HashMapEntry *createHashMapEntry(int key, Node *value) {
+  HashMapEntry *entry = (HashMapEntry *)malloc(sizeof(HashMapEntry));
+  entry->key = key;
+  entry->value = value;
+  entry->next = NULL;
+  return entry;
+}
+
+void hashMapInsert(HashMap *map, int key, Node *value) {
+  unsigned int index = hash(key);
+  HashMapEntry *newEntry = createHashMapEntry(key, value);
+  newEntry->next = map->table[index];
+  map->table[index] = newEntry;
+}
+
+Node *hashMapFind(HashMap *map, int key) {
+  unsigned index = hash(key);
+  HashMapEntry *entry = map->table[index];
+  HashMapEntry *prev = NULL;
+  while (entry) {
+    if (entry->key == key) {
+      return entry->value;
+    }
+    entry = entry->next;
+  }
+  return NULL;
+}
+
+void hashMapRemove(HashMap *map, int key) {
+  unsigned index = hash(key);
+  HashMapEntry *entry = map->table[index];
+  HashMapEntry *prev = NULL;
+  while (entry) {
+    if (entry->key == key) {
+      if (prev) {
+        prev->next = entry->next;
+      } else {
+        map->table[index] = entry->next;
+      }
+      free(entry);
+      return;
+    }
+    prev = entry;
+    entry = entry->next;
+  }
+}
 
 Node *createNode(void *data) {
   Node *newNode = (Node *)malloc(sizeof(Node));
