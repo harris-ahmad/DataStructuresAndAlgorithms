@@ -95,6 +95,29 @@ class DoublyLinkedList:
             current = current.next
         return None
 
+    def clear(self):
+        current = self.head
+        while current:
+            next_node = current.next
+            current = next_node
+        self.head = None
+        self.tail = None
+
+    def reverse_list(self):
+        current = self.head
+        prev = None
+        while current:
+            next_node = current.next
+            current.next = prev
+            current.prev = next_node
+            prev = current
+            current = next_node
+        self.head = prev
+        if self.head:
+            self.tail = self.head
+            while self.tail.next:
+                self.tail = self.tail.next
+
     def __repr__(self):
         if not self.head or not self.tail:
             raise Exception("List is empty, nothing to print")
@@ -119,10 +142,10 @@ def main():
 
     # Test appending and prepending
     print("Testing append and prepend:")
-    dll.append(1)
-    dll.append(2)
-    dll.append(3)
-    dll.prepend(0)
+    for i in range(1, 10):
+        dll.append(i)
+    for i in range(30, 20, -1):
+        dll.prepend(i)
     print(dll)  # Expected Output: 0 1 2 3
 
     # Test inserting between nodes
@@ -146,6 +169,10 @@ def main():
 
     print("Testing __len__:")
     print(len(dll))
+
+    print("Testing reverse:")
+    dll.reverse_list()
+    print(dll)
 
 
 main()
