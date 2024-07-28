@@ -1,4 +1,4 @@
-package singly
+package doubly
 
 type Node struct {
 	data interface{}
@@ -6,7 +6,7 @@ type Node struct {
 	prev *Node
 }
 
-type LinkedList struct {
+type DoublyLinkedList struct {
 	head   *Node
 	tail   *Node
 	length int
@@ -16,15 +16,15 @@ func NewNode(data interface{}) *Node {
 	return &Node{data: data}
 }
 
-func NewLinkedList() *LinkedList {
-	return &LinkedList{
+func NewDoublyLinkedList() *DoublyLinkedList {
+	return &DoublyLinkedList{
 		head:   nil,
 		tail:   nil,
 		length: 0,
 	}
 }
 
-func (dll *LinkedList) Prepend(data interface{}) {
+func (dll *DoublyLinkedList) Prepend(data interface{}) {
 	newNode := NewNode(data)
 	if dll.head == nil {
 		dll.head = newNode
@@ -36,7 +36,7 @@ func (dll *LinkedList) Prepend(data interface{}) {
 	}
 }
 
-func (dll *LinkedList) Append(data interface{}) {
+func (dll *DoublyLinkedList) Append(data interface{}) {
 	newNode := NewNode(data)
 	if dll.head == nil {
 		dll.head = newNode
@@ -48,7 +48,7 @@ func (dll *LinkedList) Append(data interface{}) {
 	}
 }
 
-func (dll *LinkedList) InsertBetween(data interface{}, after interface{}) {
+func (dll *DoublyLinkedList) InsertBetween(data interface{}, after interface{}) {
 	current := dll.head
 	for current != nil && current.data != after {
 		current = current.next
@@ -63,6 +63,49 @@ func (dll *LinkedList) InsertBetween(data interface{}, after interface{}) {
 		current.next = newNode
 		if newNode.next == nil {
 			dll.tail = newNode
+		}
+	}
+}
+
+func (dll *DoublyLinkedList) DeleteHead() {
+	if dll.head != nil {
+		if dll.head.next != nil {
+			dll.head = dll.head.next
+			dll.head.prev = nil
+		} else {
+			dll.head = nil
+			dll.tail = nil
+		}
+	}
+}
+
+func (dll *DoublyLinkedList) DeleteTail() {
+	if dll.tail != nil {
+		if dll.tail.prev != nil {
+			dll.tail = dll.tail.prev
+			dll.tail.next = nil
+		} else {
+			dll.head = nil
+			dll.tail = nil
+		}
+	}
+}
+
+func (dll *DoublyLinkedList) DeleteAny(data interface{}) {
+	current := dll.head
+	for current != nil && current.data != data {
+		current = current.next
+	}
+	if current != nil {
+		if current.prev != nil {
+			current.prev.next = current.next
+		} else {
+			dll.head = current.next
+		}
+		if current.next != nil {
+			current.next.prev = current.prev
+		} else {
+			dll.tail = current.prev
 		}
 	}
 }
