@@ -49,3 +49,38 @@ class DoublyLinkedList:
             current.next = new_node
             if new_node.next is None:
                 self.tail = new_node
+
+    def delete_head(self):
+        if self.head:
+            temp = self.head
+            self.head = self.head.next
+            if self.head:
+                self.head.prev = None
+            else:
+                self.tail = None
+            self.decrement_ref_count(temp)
+
+    def delete_tail(self):
+        if self.tail:
+            temp = self.tail
+            self.tail = self.tail.prev
+            if self.tail:
+                self.tail.next = None
+            else:
+                self.head = None
+            self.decrement_ref_count(temp)
+
+    def delete_any(self, target_data):
+        current = self.head
+        while current and current.data != target_data:
+            current = current.next
+        if current:
+            if current.prev:
+                current.prev.next = current.next
+            else:
+                self.head = current.next
+            if current.next:
+                current.next.prev = current.prev
+            else:
+                self.tail = current.prev
+            self.decrement_ref_count(current)
