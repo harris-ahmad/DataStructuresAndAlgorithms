@@ -19,15 +19,8 @@ This repository aims to provide a comprehensive collection of data structures im
 ## Features
 
 - **C++ Implementations**:
-  - 🔄 Circular Linked List
-  - ↔️ Doubly Linked List
-  - 🗃️ Queue (`queue.cc`)
   - ➖ Singly Linked List
-    - 📄 Header file (`list.h`)
-    - 📝 Practical application: Task Manager (`TaskManager.cc`)
-  - 🥞 Stack (`stack.cc`)
-  - 🌳 Trees
-    - 🏷️ Binary Search Tree (`bst.cc`)
+    - 📄 Code file (`list.h`)
 
 - **Go Implementations**:
   - ➖ Singly Linked List (`LinkedList.go`)
