@@ -137,3 +137,83 @@ void deleteAny(LinkedList *list, void *target) {
     }
   }
 }
+
+int size(LinkedList *list) {
+  int count = 0;
+  Node *curr = list->head;
+  while (curr) {
+    count++;
+    curr = curr->next;
+  }
+  return count;
+}
+
+// Function to reverse the list
+void reverseList(LinkedList *list) {
+  Node *prev = NULL;
+  Node *curr = list->head;
+  Node *next = NULL;
+  while (curr) {
+    next = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = next;
+  }
+  list->head = prev;
+}
+
+// Function to find a node with a specific value
+Node *find(LinkedList *list, void *data) {
+  Node *curr = list->head;
+  while (curr) {
+    if (curr->data == data) {
+      return curr;
+    }
+    curr = curr->next;
+  }
+  return NULL;
+}
+
+// Function to clear the list
+void clear(LinkedList *list) {
+  Node *curr = list->head;
+  Node *next;
+  while (curr) {
+    next = curr->next;
+    decrementRefCount(curr);
+    curr = next;
+  }
+  list->head = NULL;
+}
+
+// Function to print the list
+void printList(LinkedList *list) {
+  Node *curr = list->head;
+  while (curr) {
+    printf("%p ", curr->data);
+    curr = curr->next;
+  }
+  printf("\n");
+}
+
+// Function to read data into the list
+void readList(LinkedList *list) {
+  void *data;
+  scanf("%p", &data);
+  append(list, data);
+}
+
+// Function to print the node at a specific index
+void printNodeAtIndex(LinkedList *list, int index) {
+  Node *curr = list->head;
+  int count = 0;
+  while (curr) {
+    if (count == index) {
+      printf("%p\n", curr->data);
+      return;
+    }
+    count++;
+    curr = curr->next;
+  }
+  printf("Index out of bounds\n");
+}
