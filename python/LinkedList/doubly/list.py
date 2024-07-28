@@ -60,6 +60,17 @@ class DoublyLinkedList:
             else:
                 self.tail = None
 
+    def delete_tail(self):
+        if not self.head or not self.tail:
+            raise Exception("List is empty, nothing to delete")
+        else:
+            if self.tail:
+                if self.tail.prev:
+                    self.tail = self.tail.prev
+                    self.tail.next = None
+                else:
+                    self.head = self.tail = None
+
     def __repr__(self):
         current = self.head
         output = ""
@@ -89,6 +100,11 @@ def main():
     print("Testing delete_head:")
     dll.delete_head()
     print(dll)  # Expected Output: 1 1.5 2 3
+
+    # Test deleting tail
+    print("Testing delete_tail:")
+    dll.delete_tail()
+    print(dll)
 
 
 main()
