@@ -55,3 +55,32 @@ Node *getTail(LinkedList *list) {
 	}
 }
 
+void prepend(LinkedList *list, void *data) {
+	Node *newNode = createNode(data);
+	newNode->next = list->head;
+	list->head = newNode;
+}
+
+void append(LinkedList *list, void *data) {
+	Node *newNode = createNode(data);
+	if (!list->head) {
+		list->head = newNode;
+	} else {
+		Node *lastNode = getTail(list);
+		lastNode->next = newNode;
+	}
+}
+
+void insertBetween(LinkedList *list, void *data, void *after) {
+    Node *newNode = createNode(data);
+    Node *prevNode = list->head;
+
+    while (prevNode && prevNode->data != after) {
+        prevNode = prevNode->next;
+    }
+
+    if (prevNode) {
+        newNode->next = prevNode->next;
+        prevNode->next = newNode;
+    }
+}
