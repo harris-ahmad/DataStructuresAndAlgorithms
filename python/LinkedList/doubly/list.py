@@ -88,12 +88,22 @@ class DoublyLinkedList:
                 self.tail = current.prev
 
     def __repr__(self):
+        if not self.head or not self.tail:
+            raise Exception("List is empty, nothing to print")
         current = self.head
         output = ""
         while current:
             output += f'{str(current.data)} '
             current = current.next
         return output
+
+    def __len__(self):
+        count = 0
+        current = self.head
+        while current:
+            count += 1
+            current = current.next
+        return count
 
 
 def main():
@@ -125,6 +135,9 @@ def main():
     print("Testing delete_any:")
     dll.delete_any(2)
     print(dll)
+
+    print("Testing __len__:")
+    print(len(dll))
 
 
 main()
