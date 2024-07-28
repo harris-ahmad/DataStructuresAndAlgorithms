@@ -148,7 +148,6 @@ int size(LinkedList *list) {
   return count;
 }
 
-// Function to reverse the list
 void reverseList(LinkedList *list) {
   Node *prev = NULL;
   Node *curr = list->head;
