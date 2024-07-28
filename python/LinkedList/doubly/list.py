@@ -71,6 +71,22 @@ class DoublyLinkedList:
                 else:
                     self.head = self.tail = None
 
+    def delete_any(self, target):
+        current = self.head
+        while current and current.data != target:
+            current = current.next
+        if not current:
+            raise Exception("Target not found")
+        else:
+            if current.prev:
+                current.prev.next = current.next
+            else:
+                self.head = current.next
+            if current.next:
+                current.next.prev = current.prev
+            else:
+                self.tail = current.prev
+
     def __repr__(self):
         current = self.head
         output = ""
@@ -104,6 +120,10 @@ def main():
     # Test deleting tail
     print("Testing delete_tail:")
     dll.delete_tail()
+    print(dll)
+
+    print("Testing delete_any:")
+    dll.delete_any(2)
     print(dll)
 
 
