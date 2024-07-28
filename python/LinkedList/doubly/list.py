@@ -37,7 +37,7 @@ class DoublyLinkedList:
             self.tail = new_node
 
     def insert_between(self, data, after_data):
-        new_node = self.create_node(data)
+        new_node = Node(data)
         current = self.head
         while current and current.data != after_data:
             current = current.next
@@ -51,36 +51,43 @@ class DoublyLinkedList:
                 self.tail = new_node
 
     def delete_head(self):
-        if self.head:
-            temp = self.head
+        if not self.head:
+            raise Exception("List is empty, nothing to delete")
+        else:
             self.head = self.head.next
             if self.head:
                 self.head.prev = None
             else:
                 self.tail = None
-            self.decrement_ref_count(temp)
 
-    def delete_tail(self):
-        if self.tail:
-            temp = self.tail
-            self.tail = self.tail.prev
-            if self.tail:
-                self.tail.next = None
-            else:
-                self.head = None
-            self.decrement_ref_count(temp)
-
-    def delete_any(self, target_data):
+    def print_list(self):
         current = self.head
-        while current and current.data != target_data:
+        while current:
+            print(current.data, end=" ")
             current = current.next
-        if current:
-            if current.prev:
-                current.prev.next = current.next
-            else:
-                self.head = current.next
-            if current.next:
-                current.next.prev = current.prev
-            else:
-                self.tail = current.prev
-            self.decrement_ref_count(current)
+        print()
+
+
+def main():
+    dll = DoublyLinkedList()
+
+    # Test appending and prepending
+    print("Testing append and prepend:")
+    dll.append(1)
+    dll.append(2)
+    dll.append(3)
+    dll.prepend(0)
+    dll.print_list()  # Expected Output: 0 1 2 3
+
+    # Test inserting between nodes
+    print("Testing insert_between:")
+    dll.insert_between(1.5, 1)
+    dll.print_list()  # Expected Output: 0 1 1.5 2 3
+
+    # Test deleting head
+    print("Testing delete_head:")
+    dll.delete_head()
+    dll.print_list()  # Expected Output: 1 1.5 2 3
+
+
+main()
