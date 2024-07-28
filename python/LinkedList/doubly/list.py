@@ -87,6 +87,14 @@ class DoublyLinkedList:
             else:
                 self.tail = current.prev
 
+    def find(self, data):
+        current = self.head
+        while current:
+            if current.data == data:
+                return current
+            current = current.next
+        return None
+
     def __repr__(self):
         if not self.head or not self.tail:
             raise Exception("List is empty, nothing to print")
