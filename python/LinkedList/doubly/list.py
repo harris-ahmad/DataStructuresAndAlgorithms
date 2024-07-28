@@ -60,12 +60,13 @@ class DoublyLinkedList:
             else:
                 self.tail = None
 
-    def print_list(self):
+    def __repr__(self):
         current = self.head
+        output = ""
         while current:
-            print(current.data, end=" ")
+            output += f'{str(current.data)} '
             current = current.next
-        print()
+        return output
 
 
 def main():
@@ -77,17 +78,17 @@ def main():
     dll.append(2)
     dll.append(3)
     dll.prepend(0)
-    dll.print_list()  # Expected Output: 0 1 2 3
+    print(dll)  # Expected Output: 0 1 2 3
 
     # Test inserting between nodes
     print("Testing insert_between:")
     dll.insert_between(1.5, 1)
-    dll.print_list()  # Expected Output: 0 1 1.5 2 3
+    print(dll)  # Expected Output: 0 1 1.5 2 3
 
     # Test deleting head
     print("Testing delete_head:")
     dll.delete_head()
-    dll.print_list()  # Expected Output: 1 1.5 2 3
+    print(dll)  # Expected Output: 1 1.5 2 3
 
 
 main()
