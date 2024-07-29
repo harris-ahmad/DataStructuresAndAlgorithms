@@ -198,6 +198,9 @@ func main() {
 	dll.Reverse()
 	dll.PrintList() // Expected Output: 2 1
 
+	dll.Clear()
+	dll.Append(1)
+
 	// Test finding a node
 	fmt.Println("Testing find:")
 	node := dll.Find(1)
