@@ -83,6 +83,21 @@ class LinkedList {
         }
     }
 
+    deleteHead() {
+        if (!this.head) {
+            throw Error("List is empty!");
+        } else {
+            this.nodeMap.delete(this.head.data.id);
+            this.head = this.head.next;
+            if (this.head) {
+                this.head.prev = null;
+            } else {
+                this.tail = null;
+            }
+            this.length--;
+        }
+    }
+
     print() {
         let curr = this.head;
         let result = []
