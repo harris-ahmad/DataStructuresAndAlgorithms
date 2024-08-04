@@ -11,6 +11,7 @@ class LinkedList {
         this.head = null;
         this.tail = null;
         this.length = 0;
+        this.nodeMap = new Map();
     }
 
     getHead() {
@@ -31,6 +32,8 @@ class LinkedList {
             newNode.next = this.head;
             this.head = newNode;
         }
+        this.nodeMap.set(data.id, newNode)
+        this.length++;
     }
 
     append(data) {
@@ -43,6 +46,41 @@ class LinkedList {
             newNode.prev = this.tail;
             this.tail = newNode;
         }
+        this.nodeMap.set(data.id, newNode);
+        this.length++;
+    }
+
+    insertBetween(data, before, after) {
+        const newNode = new Node(data);
+        let curr = this.head;
+
+        // finding the node with the `after` data
+        while (curr && curr.data.id !== after.id) {
+            curr = curr.next;
+        }
+
+        if (curr) {
+            // finding the node with the `before` data
+            let nextNode = curr.next;
+            while (nextNode && nextNode.data.id !== before.id) {
+                curr = nextNode;
+                nextNode = nextNode.next;
+            }
+
+            // if the `before` node is found, insert the new node
+            if (nextNode && nextNode.data.id === before.id) {
+                newNode.next = nextNode;
+                newNode.prev = curr;
+                curr.next = newNode;
+                nextNode.prev = newNode;
+                this.nodeMap.set(data.id, newNode);
+                this.length++;
+            } else {
+                throw Error("Before node not found");
+            }
+        } else {
+            throw Error("After node not found");
+        }
     }
 
     print() {
@@ -54,15 +92,6 @@ class LinkedList {
         }
         console.log(result.join(" <-> "));
     }
-}
-
-function main() {
-    var dll = new LinkedList();
-    dll.prepend(1);
-    dll.prepend(2);
-    dll.append(3);
-
-    dll.print();
 }
 
 main()
