@@ -15,10 +15,12 @@ class LinkedList {
     }
 
     getHead() {
+        if (!this.head) throw Error("List is empty!");
         return this.head;
     }
 
     getTail() {
+        if (!this.head) throw Error("List is empty!");
         return this.tail;
     }
 
@@ -108,5 +110,3 @@ class LinkedList {
         console.log(result.join(" <-> "));
     }
 }
-
-main()
