@@ -1,9 +1,0 @@
-{
-  "scripts": {
-    "test": "mocha list_test.mjs"
-  },
-  "dependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^10.6.0"
-  }
-}

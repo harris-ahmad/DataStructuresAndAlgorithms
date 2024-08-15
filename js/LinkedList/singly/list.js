@@ -1,5 +1,5 @@
 /**
- * Node class representing a single node in a singly linked list.
+ * Node class representing a single node in a doubly linked list.
  */
 class Node {
     /**
@@ -9,15 +9,16 @@ class Node {
     constructor(data) {
         this.data = data;
         this.next = null;
+        this.prev = null; // Added for doubly linked list
     }
 }
 
 /**
-* LinkedList class representing a singly linked list.
+* DoublyLinkedList class representing a doubly linked list.
 */
-class LinkedList {
+class DoublyLinkedList {
     /**
-     * Create an empty LinkedList.
+     * Create an empty DoublyLinkedList.
      */
     constructor() {
         this.head = null;
@@ -53,6 +54,7 @@ class LinkedList {
             this.tail = newNode;
         } else {
             newNode.next = this.head;
+            this.head.prev = newNode;
             this.head = newNode;
         }
         this.nodeMap.set(data.id, newNode);
@@ -70,6 +72,7 @@ class LinkedList {
             this.tail = newNode;
         } else {
             this.tail.next = newNode;
+            newNode.prev = this.tail;
             this.tail = newNode;
         }
         this.nodeMap.set(data.id, newNode);
@@ -108,7 +111,9 @@ class LinkedList {
             if (nextNode && nextNode.data.id === before.id) {
                 console.log('Found node before:', nextNode.data);
                 newNode.next = nextNode;
+                newNode.prev = curr;
                 curr.next = newNode;
+                nextNode.prev = newNode;
                 this.nodeMap.set(data.id, newNode);
                 this.length++;
             } else {
@@ -125,8 +130,11 @@ class LinkedList {
     deleteHead() {
         if (this.head) {
             this.nodeMap.delete(this.head.data.id);
-            this.head = this.head.next;
-            if (!this.head) {
+            if (this.head.next) {
+                this.head = this.head.next;
+                this.head.prev = null;
+            } else {
+                this.head = null;
                 this.tail = null;
             }
             this.length--;
@@ -145,13 +153,9 @@ class LinkedList {
             this.head = null;
             this.tail = null;
         } else {
-            let prevNode = this.head;
-            while (prevNode.next && prevNode.next.next) {
-                prevNode = prevNode.next;
-            }
-            this.nodeMap.delete(prevNode.next.data.id);
-            prevNode.next = null;
-            this.tail = prevNode;
+            this.nodeMap.delete(this.tail.data.id);
+            this.tail = this.tail.prev;
+            this.tail.next = null;
         }
         this.length--;
     }
@@ -166,26 +170,19 @@ class LinkedList {
         }
 
         if (this.head.data.id === target.id) {
-            this.nodeMap.delete(this.head.data.id);
-            this.head = this.head.next;
-            if (!this.head) {
-                this.tail = null;
-            }
-            this.length--;
+            this.deleteHead();
+        } else if (this.tail.data.id === target.id) {
+            this.deleteTail();
         } else {
-            let prevNode = this.head;
-            let curr = this.head.next;
+            let curr = this.head;
 
             while (curr && curr.data.id !== target.id) {
-                prevNode = curr;
                 curr = curr.next;
             }
 
             if (curr) {
-                prevNode.next = curr.next;
-                if (!curr.next) {
-                    this.tail = prevNode;
-                }
+                curr.prev.next = curr.next;
+                curr.next.prev = curr.prev;
                 this.nodeMap.delete(curr.data.id);
                 this.length--;
             }
@@ -204,18 +201,19 @@ class LinkedList {
      * Reverse the linked list in place.
      */
     reverseList() {
-        let prev = null;
         let curr = this.head;
-        let next = null;
+        let prev = null;
 
         this.tail = this.head;
 
         while (curr) {
-            next = curr.next;
+            const next = curr.next;
             curr.next = prev;
+            curr.prev = next;
             prev = curr;
             curr = next;
         }
+
         this.head = prev;
     }
 
@@ -248,8 +246,8 @@ class LinkedList {
             result.push(curr.data.toString());
             curr = curr.next;
         }
-        console.log(result.join(" -> "));
+        console.log(result.join(" <-> "));
     }
 }
 
-export default LinkedList;
+export default DoublyLinkedList;
