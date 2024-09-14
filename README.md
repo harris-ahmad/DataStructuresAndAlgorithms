@@ -16,21 +16,6 @@ Welcome to the ultimate repository for data structures implemented across multip
 
 This repository aims to provide a comprehensive collection of data structures implemented in C++, Go, JavaScript, and Python. Each implementation will include practical applications to demonstrate their usage in real-world scenarios.
 
-## Features
-
-- **C++ Implementations**:
-  - ➖ Singly Linked List
-    - 📄 Code file (`list.h`)
-
-- **Go Implementations**:
-  - ➖ Singly Linked List (`LinkedList.go`)
-
-- **JavaScript Implementations**:
-  - ➖ Singly Linked List (`list.js`)
-
-- **Python Implementations**:
-  - ➖ Singly Linked List (`list.py`)
-
 ## Getting Started
 
 To get started with any of the data structures, navigate to the respective directory and follow the instructions provided in the comments or documentation within the code.
