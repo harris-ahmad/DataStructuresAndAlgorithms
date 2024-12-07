@@ -37,5 +37,5 @@ def test_prepend(linked_list_prepend_fixture):
     ll = linked_list_prepend_fixture
     
     assert len(ll) == NUM_ELEMENTS
-    assert ll.get_tail().data == f"node({NUM_ELEMENTS-1})"
-    assert ll.get_head().data == f"node({NUM_ELEMENTS-99999})"
+    assert ll.get_tail().data == f"node({0})"
+    assert ll.get_head().data == f"node({NUM_ELEMENTS-1})"
