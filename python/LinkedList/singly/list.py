@@ -116,23 +116,16 @@ class LinkedList:
             raise ValueError("Target must be a Node instance")
         
         if target._id not in self.node_map:
-            raise Exception("Target not found")
+            raise Exception(f"Node with ID {target._id} not found in the list")
         
         if self.head._id == target._id:
             self.delete_head()
             return
-
-        if self.head._id == target._id:
-            self.node_map.pop(self.head._id, None)
-            self.head = self.head.next
-            if not self.head:
-                self.tail = None
-            self.length -= 1
         else:
-            prev_node = self.head
-            curr = self.head.next
+            prev_node: Node = self.head
+            curr: Node = self.head.next
 
-            while curr and curr.data.id != target.id:
+            while curr and curr._id != target._id:
                 prev_node = curr
                 curr = curr.next
 
@@ -142,6 +135,8 @@ class LinkedList:
                     self.tail = prev_node
                 self.node_map.pop(curr._id, None)
                 self.length -= 1
+            else:
+                raise Exception(f"Node with ID {target._id} not found in the list")
 
     def size(self):
         """Get the number of nodes in the list."""
@@ -167,7 +162,7 @@ class LinkedList:
         
         self.head = prev
 
-    def find(self, node: Node):
+    def find(self, node: Node) -> Optional[Node]:
         """
         Find a node in the list by its id.
 
@@ -183,16 +178,25 @@ class LinkedList:
         self.head = None
         self.tail = None
         self.length = 0
-        self.node_map = {}
+        self.node_map.clear()
+        
+    def __len__(self) -> int:
+        return self.length
+    
+    def __iter__(self):
+        current = self.head
+        while current:
+            yield current
+            current = current.next
+            
+    def __repr__(self) -> str:
+        nodes = [str(node) for node in self]
+        return " -> ".join(nodes)
 
     def print_list(self):
         """
-        Print the list data in a readable format.
+        Print the list data in a readable format. Since we have a 
+        custom __iter__ and __repr__ methods, this method is not necessary. Simply
+        use a print statement to print the list data.
         """
-        curr = self.head
-        result = []
-        while curr:
-            result.append(str(curr.data))
-            curr = curr.next
-        print(" -> ".join(result))
-        
+        print(self)
