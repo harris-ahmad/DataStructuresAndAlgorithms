@@ -1,6 +1,8 @@
 import os
 from typing import Dict, Optional, Any
 
+from utils.logger import Logger
+
 class Node: 
     def __init__(self, data: Any):
         self.data = data
@@ -38,6 +40,7 @@ class LinkedList:
         
         self.node_map[new_node._id] = new_node.data
         self.length += 1
+        Logger.info(f"Prepend node: {data}")
 
     def append(self, data):
         """Append a node to the end of the list."""
@@ -54,6 +57,7 @@ class LinkedList:
         
         self.node_map[new_node._id] = new_node.data
         self.length += 1
+        Logger.info(f"Append node: {data}")
 
     def insert_between(self, data, before, after):
         """
