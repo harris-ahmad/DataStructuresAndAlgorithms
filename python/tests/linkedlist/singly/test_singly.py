@@ -1,25 +1,30 @@
 from src.linkedlist.singly.list import LinkedList
 
-import time
 import pytest
 
-@pytest.fixture
-def linked_list_fixture() -> LinkedList:
-    ll = LinkedList()
-    num_elements = 100_000
-    
-    start_time = time.perf_counter()
-    for i in range(num_elements):
-        ll.append(f"node({i})")
-    end_time = time.perf_counter()
-    
-    duration = end_time - start_time
-        
-    return ll, duration, num_elements
+NUM_ELEMENTS = 100_000
 
-def test_append(linked_list_fixture):
-    ll, _, num_elements = linked_list_fixture
+@pytest.fixture
+def linked_list_append_fixture() -> LinkedList:
+    ll = LinkedList()
     
-    assert len(ll) == num_elements
-    assert ll.get_tail().data == f"node({num_elements-1})"
+    for i in range(NUM_ELEMENTS):
+        ll.append(f"node({i})")
+        
+    return ll
+
+@pytest.fixture
+def linked_list_prepend_fixture() -> LinkedList:
+    ll = LinkedList()
+    
+    for i in range(NUM_ELEMENTS):
+        ll.prepend(f"node({i})")
+    
+    return ll
+
+def test_append(linked_list_append_fixture):
+    ll = linked_list_append_fixture
+    
+    assert len(ll) == NUM_ELEMENTS
+    assert ll.get_tail().data == f"node({NUM_ELEMENTS-1})"
     assert ll.get_head().data == "node(0)"
