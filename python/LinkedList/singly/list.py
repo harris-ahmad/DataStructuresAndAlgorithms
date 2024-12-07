@@ -1,10 +1,10 @@
 import os
-from typing import List, Dict
+from typing import Dict, Optional, Any
 
 class Node: 
-    def __init__(self, data):
+    def __init__(self, data: Any):
         self.data = data
-        self.next = None
+        self.next: Optional["Node"] = None
         self._id = os.urandom(16).hex()
         
     def __repr__(self) -> str:
@@ -12,30 +12,30 @@ class Node:
 
 class LinkedList:
     def __init__(self):
-        self.head = None
-        self.tail = None
-        self.length = 0
+        self.head: Optional[Node] = None
+        self.tail: Optional[Node] = None
+        self.length: int = 0
         # dictionary to store nodes by their IDs for faster lookup and deletion
-        self.node_map = {}
+        self.node_map: Dict[str, Node] = {}
 
-    def get_head(self):
+    def get_head(self) -> Optional[Node]:
         """Get the head node of the list."""
         return self.head
 
-    def get_tail(self):
+    def get_tail(self) -> Optional[Node]: 
         """Get the tail node of the list."""
         return self.tail
 
-    def prepend(self, data):
+    def prepend(self, data: Any) -> None:
         """Prepend a node to the start of the list."""
         
         new_node = Node(data)
-        if not self.head:
-            self.head = new_node
+        new_node.next = self.head
+        self.head = new_node
+        
+        if not self.tail:
             self.tail = new_node
-        else:
-            new_node.next = self.head
-            self.head = new_node
+        
         self.node_map[new_node._id] = new_node.data
         self.length += 1
 
@@ -47,8 +47,11 @@ class LinkedList:
             self.head = new_node
             self.tail = new_node
         else:
+            assert self.tail is not None, "Tail node is not set"
+            
             self.tail.next = new_node
             self.tail = new_node
+        
         self.node_map[new_node._id] = new_node.data
         self.length += 1
 
@@ -79,14 +82,13 @@ class LinkedList:
     def delete_head(self):
         """Delete the head node of the list."""
         
-        if self.head:
-            self.node_map.pop(self.head.data.id, None)
-            self.head = self.head.next
-            if not self.head:
-                self.tail = None
-            self.length -= 1
-        else:
+        if not self.head:
             raise Exception("List is empty, nothing to delete")
+        self.node_map.pop(self.head._id, None)
+        self.head = self.head.next
+        if not self.head:
+            self.tail = None
+        self.length -= 1
 
     def delete_tail(self):
         """
@@ -95,24 +97,30 @@ class LinkedList:
         if not self.head:
             raise Exception("List is empty, nothing to delete")
         
-        if not self.head.next:
+        if not self.head.next or self.head == self.tail:
             self.node_map.pop(self.head._id, None)
-            self.head = None
-            self.tail = None
+            self.head = self.tail = None
         else:
             prev_node = self.head
-            while prev_node.next and prev_node.next.next:
+            while prev_node.next != self.tail:
                 prev_node = prev_node.next
-            self.node_map.pop(prev_node.next._id, None)
-            prev_node.next = None
+            self.node_map.pop(self.tail._id, None)
             self.tail = prev_node
+            self.tail.next = None
+            
         self.length -= 1
 
-    def delete_any(self, target):
+    def delete_any(self, target: Node):
         """Delete any node from the list that matches the given target data."""
+        if not isinstance(target, Node):
+            raise ValueError("Target must be a Node instance")
         
-        if not self.head:
-            raise Exception("List is empty, nothing to delete")
+        if target._id not in self.node_map:
+            raise Exception("Target not found")
+        
+        if self.head._id == target._id:
+            self.delete_head()
+            return
 
         if self.head._id == target._id:
             self.node_map.pop(self.head._id, None)
